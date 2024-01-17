@@ -12,8 +12,7 @@
    $chamaVeiculo = $func->chamaVeiculo();
    $chamaRotas = $func2->chamaRotas();
 
-
-
+   $calcularQuilometragemRota = null;
 
 ?>
 
@@ -95,12 +94,6 @@
 
                         <input type="hidden" name="usuario_rota" value="<?=$_SESSION['nome_usuario'] ?>">
 
-                        <!-- <div>
-                            <label class="form-label">Obter Localização:</label>
-                            <button class="btn btn-success">Localização</button>
-                        </div>
-                        <textarea class="form-control" name="" id="" cols="10" rows="3"></textarea>                         -->
-                    <!-- </div> -->
         
                     <!-- <div class="text-center"> -->
                         <button type="submit" class="btn btn-primary">Cadastrar</button>
@@ -131,7 +124,7 @@
                     <th>Km Chegada</th>
                     <th>Destino</th>
                     <th>Veículo</th>
-                    <th></th>
+                    <th>Km Percorrida</th>
                     
                   </tr>
                 </thead>
@@ -155,7 +148,13 @@
 
                     
                     
-                    <?php } else { ?>
+                    <?php } else { 
+                      
+                        // calculo perímetro percorrigo de acordo com a Quilometragem
+                        $calcularQuilometragemRota = $func2->calcularQuilometragemRota($Rotas['quilometragem_chegada_rota'], $Rotas['quilometragem_saida_rota']);   
+                      
+                      
+                    ?>
 
                         <tr>
                             <td><strong><a href="verRotaCompleta.php?id=<?= $Rotas['id_rota']?>"><?= $Rotas['id_rota']?></a></strong></td>
@@ -164,7 +163,7 @@
                             <td><em><?= $Rotas['quilometragem_chegada_rota']?></em></td>
                             <td><em><?= $Rotas['local_chegada_rota']?></em></td>
                             <td><?= $Rotas['modelo_veiculo']?></td>
-                            <td></td>
+                            <td><?=$calcularQuilometragemRota?>Km</td>
                         </tr>
 
 

@@ -187,6 +187,58 @@ class Rotas {
 
     }
 
+    public function chamaRotaEspecificaID($id_rota){
+
+        $query = 
+        "SELECT
+        tr.id_rota,
+        tr.data_saida_rota,
+        tr.quilometragem_saida_rota,
+        tr.local_saida_rota,
+        tr.data_chegada_rota,
+        tr.quilometragem_chegada_rota,
+        tr.local_chegada_rota,
+        tr.veiculo_rota,
+        tv.modelo_veiculo,
+        tv.placa_veiculo,
+        tr.usuario_rota,
+        tr.observacao_rota
+        FROM
+            tb_rota tr
+        JOIN
+            tb_veiculo tv ON tr.veiculo_rota = tv.id_veiculo WHERE tr.id_rota = :id_rota LIMIT 1";
+
+        $conn = $this->conexao->Conectar();
+        $stmt = $conn->prepare($query);
+
+        $stmt->bindParam(':id_rota', $id_rota);
+
+        $stmt->execute();
+
+        $r = [];
+
+        while($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $r[] = $retorno;
+
+        } 
+
+        return $r;
+
+
+    }
+
+    public function calcularQuilometragemRota($quilometragem_chegada_rota, $quilometragem_saida_rota){
+
+        $quilometragem_chegada = intval($quilometragem_chegada_rota);
+        $quilometragem_saida = intval($quilometragem_saida_rota);
+        
+        $perimetroPercorrido = ($quilometragem_chegada) - $quilometragem_saida;
+        
+        return $perimetroPercorrido;
+
+    }
+
 
 }
 

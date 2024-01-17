@@ -113,6 +113,13 @@ function sideBar(){
                 </li>
 
                 <li class='nav-item'>
+                    <a class='nav-link collapsed' href='registrarAbastecimento.php'>
+                        <i class='bx bx-window-open'></i>
+                        Registrar Abastecimento
+                    </a>
+                </li>
+
+                <li class='nav-item'>
                     <a class='nav-link collapsed' href='registrarRotas.php'>
                         <i class='bx bx-directions'></i>
                         Registrar Rotas
