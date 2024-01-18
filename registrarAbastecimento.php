@@ -63,6 +63,26 @@
 
           <h5 class="card-title"><center>Informações Gerais:</center></em></h5>
 
+          <?php if(isset($_GET['inserir']) == 'Sucesso') { ?>
+
+          <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+          <i class="bi bi-check-circle me-1"></i>
+              Feito com Sucesso!
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+
+          <?php }?>
+
+          <?php if(isset($_GET['erro']) == 'arquivoInvalido') { ?>
+
+          <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+          <i class="bi bi-check-circle me-1"></i>
+              Arquivo Inválido, arquivos apenas com extesão .jpeg, .jpg e .png 
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+
+          <?php }?>
+
           <form action="controladores/RegistrarAbastecimento.php" method="post" enctype="multipart/form-data">
 
             <label class="form-label">Data do Abastecimento:</label>
@@ -71,21 +91,24 @@
             <label>Selecione o Veículo:</label>
             <select class="form-control" required name="veiculo_abastecimento" id="">
                 <?php foreach($chamaVeiculo as $veiculo) { ?>
-                    <option value="<?= $veiculo['id_veiculo'] ?>"><?= $veiculo['modelo_veiculo']?></option>
+                    <option value="<?= $veiculo['id_veiculo'] ?>"><?= $veiculo['modelo_veiculo'] . ' PLACA ' .  $veiculo['placa_veiculo']?></option>
                 <?php } ?>
             </select></br>
             
             <label class="form-label">Quilometragem atual (antes do abastecimento):</label>
             <input type="text" name="quilometragem_abastecimento" required class="form-control"></br>
-
+            
+            <label class="form-label">Quantidade abastecida em litros:</label>
+            <input type="number" name="litro_abastecimento" step="0.01" required class="form-control"></br>
+            
             <label class="form-label">Valor da Nota:</label>
-            <input type="text" name="valor_nota_abastecimento" id="dinheiro" required class="form-control"></br>
+            <input type="number" name="valor_nota_abastecimento" step="0.01" required class="form-control"></br>
 
             <label class="form-label">Observações:</label>
             <textarea class="form-control" maxlength="500" name="observacoes_abastecimento" id="" cols="10" rows="3"></textarea></br>
 
             <label class="form-label">Anexar Foto:</label>
-            <input type="file" name="nota_abastecimento"></br></br>
+            <input type="file" required name="nota_abastecimento"></br></br>
 
             <input type="hidden" name="usuario_abastecimento" value="<?=$_SESSION['nome_usuario'] ?>">
 

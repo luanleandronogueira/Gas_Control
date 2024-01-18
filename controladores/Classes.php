@@ -242,6 +242,58 @@ class Rotas {
 
 }
 
+
+class Abastecimento {
+
+    private $id_abastecimento;
+    private $conexao;
+    private $data_abastecimento;
+    private $veiculo_abastecimento;
+    private $quilometragem_abastecimento;
+    private $litro_abastecimento;
+    private $valor_nota_abastecimento;
+    private $observacoes_abastecimento;
+    private $nota_abastecimento;
+    private $valor_litro_abastecimento;
+    private $usuario_abastecimento;
+    
+    // Adicione um construtor para inicializar a conexão
+    public function __construct() {
+        $this->conexao = new Conexao();
+    }
+
+    public function inserirAbastecimento($data_abastecimento, $veiculo_abastecimento, $quilometragem_abastecimento, $litro_abastecimento, $valor_nota_abastecimento, $observacoes_abastecimento, $nota_abastecimento, $valor_litro_abastecimento, $usuario_abastecimento)
+    {
+
+        $query = "INSERT INTO tb_abastecimento (data_abastecimento, veiculo_abastecimento, quilometragem_abastecimento, litro_abastecimento, valor_nota_abastecimento, observacoes_abastecimento, nota_abastecimento, valor_litro_abastecimento, usuario_abastecimento) VALUES (:data_abastecimento, :veiculo_abastecimento, :quilometragem_abastecimento, :litro_abastecimento, :valor_nota_abastecimento, :observacoes_abastecimento, :nota_abastecimento, :valor_litro_abastecimento, :usuario_abastecimento)";
+
+        $conn = $this->conexao->Conectar();
+        $stmt = $conn->prepare($query);
+
+        $stmt->bindParam(':data_abastecimento', $data_abastecimento);
+        $stmt->bindParam(':veiculo_abastecimento', $veiculo_abastecimento);
+        $stmt->bindParam(':quilometragem_abastecimento', $quilometragem_abastecimento);
+        $stmt->bindParam(':litro_abastecimento', $litro_abastecimento);
+        $stmt->bindParam(':valor_nota_abastecimento', $valor_nota_abastecimento);
+        $stmt->bindParam(':observacoes_abastecimento', $observacoes_abastecimento);
+        $stmt->bindParam(':nota_abastecimento', $nota_abastecimento);
+        $stmt->bindParam(':valor_litro_abastecimento', $valor_litro_abastecimento);
+        $stmt->bindParam(':usuario_abastecimento', $usuario_abastecimento);
+
+        $stmt->execute();
+
+
+    }
+
+    public function calculaPrecoCombustivel($valor_nota_abastecimento, $litro_abastecimento){
+
+        $precoGasolina = $valor_nota_abastecimento / $litro_abastecimento;
+
+        return number_format($precoGasolina, 2);
+    }
+
+}
+
 class Usuario {
 
     private $id;

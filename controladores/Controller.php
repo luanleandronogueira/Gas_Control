@@ -83,8 +83,7 @@ function logoBar(){
 
     print "<div class='d-flex align-items-center justify-content-between'>
     <a href='dashboard.php' class='logo d-flex align-items-center'>
-        <img src='assets/img/logo_.png' alt='' height='300px'>
-        <img src='assets/img/medical_control_no.png' alt='' height='300px'>
+        <img class='rounded' src='assets/img/gas_logo_name.png' alt='Gas Control' height='1000px'>
     </a>
     <i class='bi bi-list toggle-sidebar-btn'></i>
 </div>";

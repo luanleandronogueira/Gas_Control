@@ -12,12 +12,12 @@ include "controladores/Controller.php";
 <html lang="pt-br">
 
 <head>
-  <!-- <?php head()?> -->
+  <?php head()?> 
 
   <style>
     body {
 
-      background-color: #1a959b;
+      background-color: #0f314d;
 
     }
 
@@ -41,8 +41,8 @@ include "controladores/Controller.php";
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
-                    <center><img src="assets/img/medical_control_vetor.png" width="300px" alt=""></center>
-                    <p class="text-center small">Seu Sistema de Controle de Combustível</p>
+                    <center><img src="assets/img/gas_logo.png" width="300px" alt=""></center>
+                    <p class="text-center small">Seu Sistema de Controle de Rotas e Abastecimento</p>
                   </div>
 
                   <?php if(isset($_GET['erro']) == '1' or isset($_GET['erro']) == '2' or isset($_GET['erro']) == '3') { ?>
@@ -73,7 +73,7 @@ include "controladores/Controller.php";
 
                   
                     <div class="col-12 mt-5">
-                      <button class="btn w-100 text-white" name="enviar_requisicao" style="background-color: #1a959b;" type="submit">Entrar</button>
+                      <button class="btn w-100 text-white" name="enviar_requisicao" style="background-color: #0f314d;" type="submit">Entrar</button>
                     </div>
 
                   </form>
@@ -103,11 +103,7 @@ include "controladores/Controller.php";
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-  <!-- <script> 
-        $(document).ready(function(){
-            $('#cpf').mask('000.000.000-00');
-        }); 
-  </script> -->
+
 
 
 </body>

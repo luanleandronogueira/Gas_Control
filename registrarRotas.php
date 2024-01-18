@@ -21,6 +21,27 @@
 
 <head>
     <?php head()?>
+
+    <style>
+  /* Adicione um estilo específico para telas menores, como celulares */
+  @media (max-width: 767px) {
+    /* Seletor para a tabela que você deseja adicionar o scroll horizontal */
+    .sua-tabela {
+      /* Defina a largura máxima da tabela para ativar o scroll horizontal quando necessário */
+      max-width: 100%;
+      /* Adicione um scroll horizontal quando o conteúdo excede a largura da tabela */
+      overflow-x: auto;
+      display: block; /* Adicione display: block para forçar a barra de rolagem horizontal */
+    }
+    /* Opcional: Remova as bordas da tabela para um visual mais limpo */
+    .sua-tabela, .sua-tabela th, .sua-tabela td {
+      border: none;
+    }
+  }
+</style>
+
+
+
 </head>
 
 <body>
@@ -88,7 +109,7 @@
                         <label>Selecione o Veículo:</label>
                         <select class="form-control" required name="veiculo_rota" id="">
                             <?php foreach($chamaVeiculo as $veiculo) { ?>
-                                <option value="<?= $veiculo['id_veiculo'] ?>"><?= $veiculo['modelo_veiculo']?></option>
+                              <option value="<?= $veiculo['id_veiculo'] ?>"><?= $veiculo['modelo_veiculo'] . ' PLACA ' .  $veiculo['placa_veiculo']?></option>
                             <?php } ?>
                         </select>
 
@@ -115,7 +136,7 @@
               <h5 class="card-title">Veículos Cadastrados</h5>
 
               <!-- Table with stripped rows -->
-              <table class="table datatable">
+              <table class="table datatable sua-tabela">
                 <thead>
                   <tr>
                     <th>ID</th>

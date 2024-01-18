@@ -4,6 +4,7 @@
 
   // Verifica se há sessão aberta.
 	verificarSessao();
+
 ?>
 
 <!DOCTYPE html>
