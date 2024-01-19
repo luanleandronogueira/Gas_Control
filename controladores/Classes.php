@@ -146,6 +146,81 @@ class Rotas {
         return $r;
     }
 
+    public function chamaRotasPersonalizadas(){
+
+        $query = "SELECT
+        tr.id_rota,
+        tr.data_saida_rota,
+        tr.quilometragem_saida_rota,
+        tr.local_saida_rota,
+        tr.data_chegada_rota,
+        tr.quilometragem_chegada_rota,
+        tr.local_chegada_rota,
+        tr.veiculo_rota,
+        tv.modelo_veiculo,
+        tv.placa_veiculo,
+        tr.usuario_rota,
+        tr.observacao_rota
+    FROM
+        tb_rota tr
+    JOIN
+        tb_veiculo tv ON tr.veiculo_rota = tv.id_veiculo ORDER BY tr.id_rota DESC LIMIT 4";
+
+
+        $conn = $this->conexao->Conectar();
+        $stmt = $conn->prepare($query);
+
+        $stmt->execute();
+
+        $r = [];
+
+        while($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $r[] = $retorno;
+
+        } 
+
+        return $r;
+    }
+
+    public function chamaRotaUsuario($nome_usuario){
+
+        $query = "SELECT
+        tr.id_rota,
+        tr.data_saida_rota,
+        tr.quilometragem_saida_rota,
+        tr.local_saida_rota,
+        tr.data_chegada_rota,
+        tr.quilometragem_chegada_rota,
+        tr.local_chegada_rota,
+        tr.veiculo_rota,
+        tv.modelo_veiculo,
+        tv.placa_veiculo,
+        tr.usuario_rota,
+        tr.observacao_rota
+    FROM
+        tb_rota tr
+    JOIN
+        tb_veiculo tv ON tr.veiculo_rota = tv.id_veiculo WHERE tr.usuario_rota = :nome_usuario ORDER BY tr.id_rota DESC";
+
+        $conn = $this->conexao->Conectar();
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(":nome_usuario", $nome_usuario);
+
+        $stmt->execute();
+
+        $r = [];
+
+        while($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $r[] = $retorno;
+
+        } 
+
+        return $r;
+
+    }
+
     public function atualizaRota($data_chegada_rota, $quilometragem_chegada_rota, $local_chegada_rota, $observacao_rota, $id_rota){
 
         $conn = $this->conexao->Conectar();
@@ -341,9 +416,9 @@ class Usuario {
         return $usuario;
     }
 
-    public function inserirUsuario($nome_usuario, $cpf_usuario, $senha_usuario, $tipo_usuario, $setor_usuario){
+    public function inserirUsuario($nome_usuario, $cpf_usuario, $senha_usuario, $tipo_usuario){
 
-        $query = "INSERT INTO tb_usuario (nome_usuario, cpf_usuario, senha_usuario, tipo_usuario, setor_usuario) VALUES (:nome_usuario, :cpf_usuario, :senha_usuario, :tipo_usuario, :setor_usuario)";
+        $query = "INSERT INTO tb_usuario (nome_usuario, cpf_usuario, senha_usuario, tipo_usuario ) VALUES (:nome_usuario, :cpf_usuario, :senha_usuario, :tipo_usuario)";
         
         $conn = $this->conexao->Conectar();
 
@@ -352,7 +427,6 @@ class Usuario {
         $stmt->bindParam(':cpf_usuario', $cpf_usuario);
         $stmt->bindParam(':senha_usuario', $senha_usuario);
         $stmt->bindParam(':tipo_usuario', $tipo_usuario);
-        $stmt->bindParam(':setor_usuario', $setor_usuario);
 
         $stmt->execute();
     }
@@ -406,6 +480,28 @@ class Usuario {
 
     }
 
+    public function chamaTodosUsuario(){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT * FROM tb_usuario";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->execute();
+
+        $r = [];
+
+        while($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $r[] = $retorno;
+
+        } 
+
+        return $r;
+
+    }
+
 }
 
 // Função para verificar se há uma sessão aberta
@@ -415,7 +511,7 @@ function verificarSessao() {
 
     if($_SESSION['tipo_usuario'] === 'u'){
 
-        header("Location: index.php?usuario=negado");
+        header("Location: index.php?usuario=negado&&ClassVerificaSessao");
         exit(); // Importante para evitar execução adicional após o redirecionamento
 
     } else {
@@ -430,6 +526,28 @@ function verificarSessao() {
     
 }
 
+// Função para verificar se há uma sessão aberta
+function verificarSessaoUsuario() {
+    session_start();
+    // ob_start(); // Se necessário, descomente esta linha
+
+    if($_SESSION['tipo_usuario'] != 'u'){
+
+        header("Location: index.php?usuario=negado");
+        exit(); // Importante para evitar execução adicional após o redirecionamento
+
+    } else {
+
+        if ((!isset($_SESSION['id_usuario'])) AND (!isset($_SESSION['nome_usuario']))) {
+            $_SESSION['msg'] = "<p style='color: #ff0000'>Erro: Necessário realizar o login para acessar a página! </p>";
+            header("Location: index.php?usuario=negado");
+            exit(); // Importante para evitar execução adicional após o redirecionamento
+        }
+
+
+    }
+    
+}
 
 
 

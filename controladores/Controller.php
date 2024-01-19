@@ -158,9 +158,9 @@ function sideBarUsuario(){
                 </li>
 
                 <li class='nav-item'>
-                    <a class='nav-link collapsed' href='saidaMedicamentos.php'>
-                        <i class='bx bxs-capsule'></i>
-                        <span>Saída de Medicamentos</span>
+                    <a class='nav-link collapsed' href='registrarAbastecimento.php'>
+                        <i class='bx bx-window-open'></i>
+                        <span>Registrar Abastecimento</span>
                     </a>
                 </li>
 

@@ -4,13 +4,33 @@ include_once 'Classes.php';
 
 if (!empty($_POST)){
 
-    $func = new Rotas;
 
-    $SaidaRotaUPPER = strtoupper($_POST['local_saida_rota']);
-    
-    $inserirRotaSaida = $func->inserirRotaSaida($_POST['data_saida_rota'], $_POST['quilometragem_rota'],  $SaidaRotaUPPER, $_POST['veiculo_rota'], $_POST['usuario_rota']);
+    if(!isset($_POST['usuario_submit'])) {
 
-    header("Location: ../registrarRotas.php?cadastro=sucesso&&RegistrarRotas");
+        // echo '<pre>';
+        //     print_r($_POST);
+        // echo '</pre>';
+
+        $func = new Rotas;
+
+        $SaidaRotaUPPER = strtoupper($_POST['local_saida_rota']);
+        
+        $inserirRotaSaida = $func->inserirRotaSaida($_POST['data_saida_rota'], $_POST['quilometragem_rota'],  $SaidaRotaUPPER, $_POST['veiculo_rota'], $_POST['usuario_rota']);
+
+        header("Location: ../registrarRotas.php?cadastro=sucesso&&RegistrarRotas");
+
+
+     } else {
+      
+        $func = new Rotas;
+
+        $SaidaRotaUPPER = strtoupper($_POST['local_saida_rota']);
+        
+        $inserirRotaSaida = $func->inserirRotaSaida($_POST['data_saida_rota'], $_POST['quilometragem_rota'],  $SaidaRotaUPPER, $_POST['veiculo_rota'], $_POST['usuario_rota']);
+
+        header("Location: ../usuario/dashboardUsuario.php?cadastro=sucesso&&RegistrarRotas");
+
+    }
 
 
 } else {
@@ -21,9 +41,7 @@ if (!empty($_POST)){
 
 }
 
-// echo '<pre>';
-//     print_r($_POST);
-// echo '</pre>';
+
 
 
 ?>
