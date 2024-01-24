@@ -24,6 +24,11 @@
 
 <head>
     <?php head()?>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #mapa { height: 400px; }
+  </style>
+
 </head>
 
 <body>
@@ -89,8 +94,17 @@
 
                         <label class="form-label">Inserir Observações:</label>
                         <textarea class="form-control" name="observacao_rota" id="" cols="10" rows="3"></textarea>      
-                        <input type="hidden" name="id_rota" value="<?= $_GET['id'] ?>" >          
+                        <input type="hidden" name="id_rota" value="<?= $_GET['id'] ?>" >
+
+                        <!-- Adicione campos ocultos para latitude e longitude -->
+                        <input type="hidden" id="latitudeInput" name="latitude" value="">
+                        <input type="hidden" id="longitudeInput" name="longitude" value="">         
                     <!-- <div class="text-center"> -->
+
+
+                        <label class="form-label">Localização de Saída:</label>
+                        <div id="mapa"></div>
+
                         <button type="submit" name="usuario_submit" class="btn btn-primary">Cadastrar</button>
                     <!-- </div> -->
 
@@ -99,12 +113,61 @@
                 </form>
 
                 </br> 
-
-              
             </div>
           </div>
        </div>
+        
+       <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+      <script>
 
+        var mapa;
+        var coords = {};
+
+        function success(pos) {
+          console.log(pos.coords.latitude, pos.coords.longitude);
+          coords.latitude = pos.coords.latitude;
+          coords.longitude = pos.coords.longitude;
+
+          // Atualiza os valores nos campos de entrada ocultos
+          document.getElementById("latitudeInput").value = coords.latitude;
+          document.getElementById("longitudeInput").value = coords.longitude;
+
+          // Inicializa o mapa apenas se não estiver inicializado
+          if (!mapa) {
+            iniciarMapa();
+          }
+        }
+
+        function error(err) {
+          console.log(err);
+        }
+
+        var watchID = navigator.geolocation.watchPosition(success, error, {
+          enableHighAccuracy: true,
+          // timeout: 5000
+        });
+
+        function iniciarMapa() {
+          // Inicializa o mapa apenas se não estiver inicializado
+          if (!mapa) {
+            // Inicializa o mapa com uma visão específica e nível de zoom
+            mapa = L.map('mapa').setView([coords.latitude, coords.longitude], 24);
+
+            // Adiciona um provedor de mapas (por exemplo, OpenStreetMap)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '© OpenStreetMap contributors'
+            }).addTo(mapa);
+
+            var marker = L.marker([coords.latitude, coords.longitude]).addTo(mapa);
+          }
+        }
+
+        // Chama iniciarMapa() caso as coordenadas já estejam disponíveis
+        if (coords.latitude !== undefined && coords.longitude !== undefined) {
+          iniciarMapa();
+        }
+
+      </script>
       </div>
     </section>
   </main><!-- End #main -->

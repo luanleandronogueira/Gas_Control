@@ -95,7 +95,7 @@
                 <label><strong>Placa do Veículo: </strong><?= $chamaRotaEspecificaID[0]['placa_veiculo'] ?></label> </br>
                 <label><strong>Motorista: </strong><?= $chamaRotaEspecificaID[0]['usuario_rota'] ?> </label></br>
                 <label><strong>Observações: </strong><?= $chamaRotaEspecificaID[0]['observacao_rota'] ?> </label></br></br>   
-                <label><strong>Perímetro percorrido: <span class=""><?= $quilometragem ?></span></strong> </label></br>  
+                <label><strong>Perímetro percorrido: <small class="badge bg-secondary"><?= $quilometragem ?></small></strong> </label></br>  
                 <div id="mapa"></div>
 
                 </br>
