@@ -87,15 +87,17 @@ class Rotas {
     private $veiculo_rota;
     private $usuario_rota;
     private $observacao_rota;
+    private $latitude_longitude_saida_rota;
+    private $latitude_longitude_chegada_rota;
 
     // Adicione um construtor para inicializar a conexão
     public function __construct() {
         $this->conexao = new Conexao();
     }
 
-    public function inserirRotaSaida($data_saida_rota, $quilometragem_saida_rota, $local_saida_rota, $veiculo_rota, $usuario_rota){
+    public function inserirRotaSaida($data_saida_rota, $quilometragem_saida_rota, $local_saida_rota, $veiculo_rota, $usuario_rota, $latitude_longitude_saida_rota){
 
-        $query = "INSERT INTO tb_rota (data_saida_rota, quilometragem_saida_rota, local_saida_rota, veiculo_rota, usuario_rota) VALUES (:data_saida_rota, :quilometragem_saida_rota, :local_saida_rota, :veiculo_rota, :usuario_rota)";
+        $query = "INSERT INTO tb_rota (data_saida_rota, quilometragem_saida_rota, local_saida_rota, veiculo_rota, usuario_rota, latitude_longitude_saida_rota) VALUES (:data_saida_rota, :quilometragem_saida_rota, :local_saida_rota, :veiculo_rota, :usuario_rota, :latitude_longitude_saida_rota)";
         
         $conn = $this->conexao->Conectar();
 
@@ -105,6 +107,7 @@ class Rotas {
         $stmt->bindParam(':local_saida_rota', $local_saida_rota);
         $stmt->bindParam(':veiculo_rota', $veiculo_rota);
         $stmt->bindParam(':usuario_rota', $usuario_rota);
+        $stmt->bindParam(':latitude_longitude_saida_rota', $latitude_longitude_saida_rota);
 
         $stmt->execute();
     }
@@ -221,11 +224,11 @@ class Rotas {
 
     }
 
-    public function atualizaRota($data_chegada_rota, $quilometragem_chegada_rota, $local_chegada_rota, $observacao_rota, $id_rota){
+    public function atualizaRota($data_chegada_rota, $quilometragem_chegada_rota, $local_chegada_rota, $observacao_rota, $latitude_longitude_chegada_rota, $id_rota){
 
         $conn = $this->conexao->Conectar();
 
-        $query = "UPDATE tb_rota SET data_chegada_rota = :data_chegada_rota, quilometragem_chegada_rota = :quilometragem_chegada_rota, local_chegada_rota = :local_chegada_rota, observacao_rota = :observacao_rota  WHERE id_rota = :id_rota";
+        $query = "UPDATE tb_rota SET data_chegada_rota = :data_chegada_rota, quilometragem_chegada_rota = :quilometragem_chegada_rota, local_chegada_rota = :local_chegada_rota, observacao_rota = :observacao_rota, latitude_longitude_chegada_rota = :latitude_longitude_chegada_rota WHERE id_rota = :id_rota";
 
         $stmt = $conn->prepare($query);
 
@@ -233,6 +236,7 @@ class Rotas {
         $stmt->bindParam(':quilometragem_chegada_rota', $quilometragem_chegada_rota);
         $stmt->bindParam(':local_chegada_rota', $local_chegada_rota);
         $stmt->bindParam(':observacao_rota', $observacao_rota);
+        $stmt->bindParam(':latitude_longitude_chegada_rota', $latitude_longitude_chegada_rota );
         $stmt->bindParam(':id_rota', $id_rota);
 
         $stmt->execute();
@@ -277,7 +281,10 @@ class Rotas {
         tv.modelo_veiculo,
         tv.placa_veiculo,
         tr.usuario_rota,
-        tr.observacao_rota
+        tr.observacao_rota,
+        tr.latitude_longitude_saida_rota,
+        tr.latitude_longitude_chegada_rota
+
         FROM
             tb_rota tr
         JOIN
@@ -310,7 +317,7 @@ class Rotas {
         
         $perimetroPercorrido = ($quilometragem_chegada) - $quilometragem_saida;
         
-        return $perimetroPercorrido;
+        return $perimetroPercorrido . "Km";
 
     }
 

@@ -21,14 +21,8 @@
 
 <head>
     <?php head()?>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <style>
-    #mapa { height: 400px; }
-  </style>
 
-
-
-<style>
+    <style>
   /* Adicione um estilo específico para telas menores, como celulares */
   @media (max-width: 767px) {
     /* Seletor para a tabela que você deseja adicionar o scroll horizontal */
@@ -101,7 +95,7 @@
 
                 <?php }?>
                 
-                <form class="row g-3" action="controladores/teste.php" method="post">
+                <form class="row g-3" action="controladores/RegistrarRotas.php" method="post">
 
                         <label class="form-label">Data de Saída:</label>
                         <input type="datetime-local" name="data_saida_rota" required class="form-control">
@@ -121,80 +115,23 @@
 
                         <input type="hidden" name="usuario_rota" value="<?=$_SESSION['nome_usuario'] ?>">
 
-                        <label class="form-label">Localização de Saída:</label>
-                        <div id="mapa"></div>
-
-                        <!-- Adicione campos ocultos para latitude e longitude -->
-                        <input type="hidden" id="latitudeInput" name="latitude" value="">
-                        <input type="hidden" id="longitudeInput" name="longitude" value="">
-
+        
                     <!-- <div class="text-center"> -->
                         <button type="submit" class="btn btn-primary">Cadastrar</button>
-                    <!-- </div> --> 
+                    <!-- </div> -->
+
+                        
 
                 </form>
 
                 </br> 
+
+              
             </div>
           </div>
        </div>
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-
-      var mapa;
-      var coords = {};
-
-      function success(pos) {
-        console.log(pos.coords.latitude, pos.coords.longitude);
-        coords.latitude = pos.coords.latitude;
-        coords.longitude = pos.coords.longitude;
-
-        // Atualiza os valores nos campos de entrada ocultos
-        document.getElementById("latitudeInput").value = coords.latitude;
-        document.getElementById("longitudeInput").value = coords.longitude;
-
-        // Inicializa o mapa apenas se não estiver inicializado
-        if (!mapa) {
-          iniciarMapa();
-        }
-      }
-
-      function error(err) {
-        console.log(err);
-      }
-
-      var watchID = navigator.geolocation.watchPosition(success, error, {
-        enableHighAccuracy: true,
-        // timeout: 5000
-      });
-
-      function iniciarMapa() {
-        // Inicializa o mapa apenas se não estiver inicializado
-        if (!mapa) {
-          // Inicializa o mapa com uma visão específica e nível de zoom
-          mapa = L.map('mapa').setView([coords.latitude, coords.longitude], 24);
-
-          // Adiciona um provedor de mapas (por exemplo, OpenStreetMap)
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-          }).addTo(mapa);
-
-          var marker = L.marker([coords.latitude, coords.longitude]).addTo(mapa);
-        }
-      }
-
-      // Chama iniciarMapa() caso as coordenadas já estejam disponíveis
-      if (coords.latitude !== undefined && coords.longitude !== undefined) {
-        iniciarMapa();
-      }
-
-    </script>
-
-                    
-                            
-      </br>
-       <div class="card mt-4 ">
+       <div class="card">
             <div class="card-body">
               <h5 class="card-title">Veículos Cadastrados</h5>
 

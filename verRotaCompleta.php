@@ -15,9 +15,10 @@
     $func = new Rotas;
     $chamaRotaEspecificaID = $func->chamaRotaEspecificaID($_GET['id']);
 
+    $quilometragem = $func->calcularQuilometragemRota($chamaRotaEspecificaID[0]['quilometragem_chegada_rota'], $chamaRotaEspecificaID[0]['quilometragem_saida_rota']);
 
 }
-
+    
 
 ?>
 
@@ -26,6 +27,10 @@
 
 <head>
     <?php head()?>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+      #mapa { height: 400px; }
+    </style>
 </head>
 
 <body>
@@ -89,13 +94,69 @@
                 <label><strong>Carro Utilizado: </strong><?= $chamaRotaEspecificaID[0]['modelo_veiculo'] ?></label></br>
                 <label><strong>Placa do Veículo: </strong><?= $chamaRotaEspecificaID[0]['placa_veiculo'] ?></label> </br>
                 <label><strong>Motorista: </strong><?= $chamaRotaEspecificaID[0]['usuario_rota'] ?> </label></br>
-                <label><strong>Observações: </strong><?= $chamaRotaEspecificaID[0]['observacao_rota'] ?> </label></br>   
+                <label><strong>Observações: </strong><?= $chamaRotaEspecificaID[0]['observacao_rota'] ?> </label></br></br>   
+                <label><strong>Perímetro percorrido: <span class=""><?= $quilometragem ?></span></strong> </label></br>  
+                <div id="mapa"></div>
+
                 </br>
                 <a href="registrarRotas.php" class="btn btn-block btn-secondary">Voltar</a>
 
-            </div>
-        </div>          
+          <?php 
+                $coordenadasSaida = [];
+                $coordenadasChegada = [];
 
+                // Verifica se as coordenadas foram definidas antes de acessá-las
+                if (isset($chamaRotaEspecificaID[0]['latitude_longitude_saida_rota'])) {
+                  // separando coordenadas de saida 
+                  $coordenadasSaida = explode('/', $chamaRotaEspecificaID[0]['latitude_longitude_saida_rota']);
+                }
+
+                // Verifica se as coordenadas foram definidas antes de acessá-las
+                if (isset($chamaRotaEspecificaID[0]['latitude_longitude_chegada_rota'])) {
+                  // separação coordenadas de chegada
+                  $coordenadasChegada = explode('/', $chamaRotaEspecificaID[0]['latitude_longitude_chegada_rota']);
+                }
+
+                
+              ?>
+              <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+            <script>
+
+              var mapa;
+              var coordsSaida = {
+                latitude: <?= $coordenadasSaida[0] ?>,
+                longitude: <?= $coordenadasSaida[1] ?>
+              };
+
+              var coordsChegada = {
+                latitude: <?= $coordenadasChegada[0] ?>,
+                longitude: <?= $coordenadasChegada[1] ?>
+              };
+
+              function iniciarMapa() {
+                // Inicializa o mapa com uma visão específica e nível de zoom
+                mapa = L.map('mapa').setView([coordsSaida.latitude, coordsSaida.longitude], 10);
+
+                // Adiciona um provedor de mapas (por exemplo, OpenStreetMap)
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                  attribution: '© OpenStreetMap contributors'
+                }).addTo(mapa);
+
+                // Adiciona a linha ao mapa
+                var polyline = L.polyline([
+                  [coordsSaida.latitude, coordsSaida.longitude],
+                  [coordsChegada.latitude, coordsChegada.longitude]
+                ]).addTo(mapa);
+              }
+
+              // Chama iniciarMapa() quando o documento estiver pronto
+              document.addEventListener('DOMContentLoaded', iniciarMapa);
+
+            </script>
+            </div>
+        </div>  
+
+            
 
       </div>
     </section>
