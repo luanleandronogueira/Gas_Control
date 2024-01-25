@@ -102,7 +102,7 @@
                     <!-- <div class="text-center"> -->
 
 
-                        <label class="form-label">Localização de Saída:</label>
+                        <label class="form-label">Localização de Chegada:</label>
                         <div id="mapa"></div>
 
                         <button type="submit" name="usuario_submit" class="btn btn-primary">Cadastrar</button>

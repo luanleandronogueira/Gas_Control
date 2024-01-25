@@ -171,7 +171,7 @@ $chamaRotas = $func2->chamaRotas();
                             <td><em><?= $Rotas['quilometragem_chegada_rota']?></em></td>
                             <td><em><?= $Rotas['local_chegada_rota']?></em></td>
                             <td><?= $Rotas['modelo_veiculo']?></td>
-                            <td><?=$calcularQuilometragemRota?>Km</td>
+                            <td><?=$calcularQuilometragemRota?></td>
                         </tr>
 
 

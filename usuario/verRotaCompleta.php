@@ -91,7 +91,7 @@
                 <label><strong>Motorista: </strong><?= $chamaRotaEspecificaID[0]['usuario_rota'] ?> </label></br>
                 <label><strong>Observações: </strong><?= $chamaRotaEspecificaID[0]['observacao_rota'] ?> </label></br>   
                 </br>
-                <a href="registrarRotas.php" class="btn btn-block btn-secondary">Voltar</a>
+                <a href="../registrarRotas.php" class="btn btn-block btn-secondary">Voltar</a>
 
             </div>
         </div>          

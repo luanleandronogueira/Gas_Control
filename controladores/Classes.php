@@ -186,6 +186,53 @@ class Rotas {
         return $r;
     }
 
+    public function chamaRotaPorData($data_inicial, $data_final){
+
+        $query = "SELECT
+        tr.id_rota,
+        tr.data_saida_rota,
+        tr.quilometragem_saida_rota,
+        tr.local_saida_rota,
+        tr.data_chegada_rota,
+        tr.quilometragem_chegada_rota,
+        tr.local_chegada_rota,
+        tr.veiculo_rota,
+        tv.modelo_veiculo,
+        tv.placa_veiculo,
+        tr.usuario_rota,
+        tr.observacao_rota,
+        tr.latitude_longitude_saida_rota,
+        tr.latitude_longitude_chegada_rota
+    FROM
+        tb_rota tr
+    JOIN
+        tb_veiculo tv ON tr.veiculo_rota = tv.id_veiculo
+    WHERE
+        (DATE(tr.data_saida_rota) BETWEEN :data_inicial AND :data_final)
+        OR (DATE(tr.data_chegada_rota) BETWEEN :data_inicial AND :data_final)
+    ORDER BY
+        tr.id_rota DESC";
+
+
+        $conn = $this->conexao->Conectar();
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(":data_inicial", $data_inicial);
+        $stmt->bindValue(":data_final", $data_final);
+
+        $stmt->execute();
+
+        $r = [];
+
+        while($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $r[] = $retorno;
+
+        } 
+
+        return $r;
+
+    }
+
     public function chamaRotaUsuario($nome_usuario){
 
         $query = "SELECT
