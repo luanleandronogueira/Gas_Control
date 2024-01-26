@@ -15,8 +15,6 @@
         
         $func = new Veiculo;
         $chamaVeiculoEspecifico = $func->chamaVeiculoEspecifico($_GET['id']);
-
-
    }
 
     
@@ -78,7 +76,7 @@
 
                         <label class="form-label">Placa do Veículo:</label>
                         <input type="text" value="<?=$chamaVeiculoEspecifico['placa_veiculo'] ?>" name="placa_veiculo" maxlength="10" required class="form-control">
-                        <input type="hidden" name="id_nomeclatura" value="<?=$chamaVeiculoEspecifico['id_veiculo'] ?>">
+                        <input type="hidden" name="id_veiculo" value="<?=$chamaVeiculoEspecifico['id_veiculo'] ?>">
                     <!-- </div> -->
         
                     <!-- <div class="text-center"> -->

@@ -70,6 +70,20 @@ class Veiculo {
 
     }
 
+    public function atualizarVeiculo($modelo_veiculo, $placa_veiculo, $id_veiculo){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "UPDATE tb_veiculo SET modelo_veiculo = :modelo_veiculo, placa_veiculo = :placa_veiculo WHERE id_veiculo = :id_veiculo";
+        $stmt = $conn->prepare($query);
+
+        $stmt->bindValue(":modelo_veiculo", $modelo_veiculo);
+        $stmt->bindValue(":placa_veiculo", $placa_veiculo);
+        $stmt->bindValue(":id_veiculo", $id_veiculo);
+
+        $stmt->execute();
+    }
+
 
 }
 
